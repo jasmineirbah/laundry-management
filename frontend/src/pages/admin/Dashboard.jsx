@@ -1,8 +1,7 @@
 import { useState } from 'react'
-import Navbar from '../../components/admin/Navbar'
+import Sidebar from '../../components/admin/Sidebar'
 
 export default function Dashboard() {
-
   const [orders, setOrders] = useState([
     {
       id: 'ORD001',
@@ -32,7 +31,6 @@ export default function Dashboard() {
   const [total, setTotal] = useState('')
 
   const addOrder = () => {
-
     if (!customer || !paket || !total) {
       alert('Isi semua data')
       return
@@ -56,172 +54,252 @@ export default function Dashboard() {
   }
 
   return (
-    <>
-      <Navbar />
+    <div className="d-flex">
 
-      <div className="container">
+      <Sidebar />
 
-        <h1 className="page-title">
-          Dashboard Admin Laundry
-        </h1>
+      <div
+        className="flex-grow-1 p-4"
+        style={{
+          background: '#f5f6fa',
+          minHeight: '100vh'
+        }}
+      >
 
-        {/* CARDS */}
-        <div className="row g-4">
+        {/* Header */}
+        <div className="d-flex justify-content-between align-items-center mb-4">
 
-          <div className="col-md-3">
-            <div className="dashboard-card">
-              <h5>Total Orders</h5>
-              <h2>{orders.length}</h2>
-            </div>
+          <div>
+            <h1 className="fw-bold mb-1">
+              Dashboard Admin 👋
+            </h1>
+
+            <p className="text-muted mb-0">
+              Kelola seluruh aktivitas laundry dari satu tempat.
+            </p>
           </div>
 
-          <div className="col-md-3">
-            <div className="dashboard-card">
-              <h5>Diproses</h5>
-              <h2>35</h2>
-            </div>
-          </div>
+          <div className="d-flex align-items-center gap-3">
 
-          <div className="col-md-3">
-            <div className="dashboard-card">
-              <h5>Selesai</h5>
-              <h2>85</h2>
-            </div>
-          </div>
-
-          <div className="col-md-3">
-            <div className="dashboard-card">
-              <h5>Pendapatan</h5>
-              <h2>Rp 5.2JT</h2>
-            </div>
-          </div>
-
-        </div>
-
-        {/* FORM TAMBAH ORDER */}
-        <div className="table-container mt-5">
-
-          <h3 className="mb-4">
-            Tambah Order
-          </h3>
-
-          <div className="row">
-
-            <div className="col-md-4 mb-3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Nama Customer"
-                value={customer}
-                onChange={(e) =>
-                  setCustomer(e.target.value)
-                }
-              />
+            <div
+              style={{
+                width: '50px',
+                height: '50px',
+                borderRadius: '50%',
+                background: '#0d6efd',
+                color: '#fff',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                fontWeight: 'bold'
+              }}
+            >
+              A
             </div>
 
-            <div className="col-md-4 mb-3">
-              <select
-                className="form-control"
-                value={paket}
-                onChange={(e) =>
-                  setPaket(e.target.value)
-                }
-              >
-                <option value="">
-                  Pilih Paket
-                </option>
+            <div>
+              <h6 className="mb-0">
+                admin@gmail.com
+              </h6>
 
-                <option>
-                  Cuci Kering
-                </option>
-
-                <option>
-                  Setrika
-                </option>
-
-                <option>
-                  Cuci Express
-                </option>
-              </select>
-            </div>
-
-            <div className="col-md-3 mb-3">
-              <input
-                type="number"
-                className="form-control"
-                placeholder="Total Harga"
-                value={total}
-                onChange={(e) =>
-                  setTotal(e.target.value)
-                }
-              />
-            </div>
-
-            <div className="col-md-1 mb-3">
-              <button
-                className="btn btn-primary w-100"
-                onClick={addOrder}
-              >
-                +
-              </button>
+              <small className="text-muted">
+                Administrator
+              </small>
             </div>
 
           </div>
 
         </div>
 
-        {/* TABLE */}
-        <div className="table-container mt-5">
+        {/* Statistik */}
+        <div className="row g-4 mb-4">
 
-          <div className="d-flex justify-content-between align-items-center mb-3">
+          <div className="col-md-3">
+            <div className="card border-0 shadow-sm">
+              <div className="card-body">
+                <h6 className="text-muted">
+                  Total Orders
+                </h6>
 
-            <h3>Recent Orders</h3>
+                <h2 className="fw-bold">
+                  {orders.length}
+                </h2>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-md-3">
+            <div className="card border-0 shadow-sm">
+              <div className="card-body">
+                <h6 className="text-muted">
+                  Total Customer
+                </h6>
+
+                <h2 className="fw-bold">
+                  75
+                </h2>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-md-3">
+            <div className="card border-0 shadow-sm">
+              <div className="card-body">
+                <h6 className="text-muted">
+                  Karyawan
+                </h6>
+
+                <h2 className="fw-bold">
+                  12
+                </h2>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-md-3">
+            <div className="card border-0 shadow-sm">
+              <div className="card-body">
+                <h6 className="text-muted">
+                  Pendapatan
+                </h6>
+
+                <h2 className="fw-bold text-success">
+                  Rp 5.2 JT
+                </h2>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Recent Orders */}
+        <div className="card border-0 shadow-sm mb-4">
+
+          <div className="card-header bg-white">
+            <h4 className="mb-0">
+              Order Terbaru
+            </h4>
+          </div>
+
+          <div className="card-body">
+
+            <div className="table-responsive">
+
+              <table className="table align-middle">
+
+                <thead className="table-light">
+                  <tr>
+                    <th>ID</th>
+                    <th>Customer</th>
+                    <th>Paket</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+
+                  {orders.map((order, index) => (
+                    <tr key={index}>
+
+                      <td>{order.id}</td>
+
+                      <td>{order.customer}</td>
+
+                      <td>{order.paket}</td>
+
+                      <td>
+                        <span
+                          className={`badge ${
+                            order.status === 'Selesai'
+                              ? 'bg-success'
+                              : order.status === 'Diproses'
+                              ? 'bg-warning text-dark'
+                              : 'bg-secondary'
+                          }`}
+                        >
+                          {order.status}
+                        </span>
+                      </td>
+
+                      <td>{order.total}</td>
+
+                    </tr>
+                  ))}
+
+                </tbody>
+
+              </table>
+
+            </div>
 
           </div>
 
-          <table className="table table-hover">
+        </div>
 
-            <thead>
-              <tr>
-                <th>ID Order</th>
-                <th>Customer</th>
-                <th>Paket</th>
-                <th>Status</th>
-                <th>Total</th>
-              </tr>
-            </thead>
+        {/* Tambah Order */}
+        <div className="card border-0 shadow-sm">
 
-            <tbody>
+          <div className="card-header bg-white">
+            <h4 className="mb-0">
+              Tambah Order Baru
+            </h4>
+          </div>
 
-              {orders.map((order, index) => (
+          <div className="card-body">
 
-                <tr key={index}>
+            <div className="row">
 
-                  <td>{order.id}</td>
+              <div className="col-md-4 mb-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Nama Customer"
+                  value={customer}
+                  onChange={(e) => setCustomer(e.target.value)}
+                />
+              </div>
 
-                  <td>{order.customer}</td>
+              <div className="col-md-4 mb-3">
+                <select
+                  className="form-select"
+                  value={paket}
+                  onChange={(e) => setPaket(e.target.value)}
+                >
+                  <option value="">Pilih Paket</option>
+                  <option>Cuci Kering</option>
+                  <option>Setrika</option>
+                  <option>Cuci Express</option>
+                </select>
+              </div>
 
-                  <td>{order.paket}</td>
+              <div className="col-md-3 mb-3">
+                <input
+                  type="number"
+                  className="form-control"
+                  placeholder="Total Harga"
+                  value={total}
+                  onChange={(e) => setTotal(e.target.value)}
+                />
+              </div>
 
-                  <td>
-                    <span className="badge bg-warning text-dark">
-                      {order.status}
-                    </span>
-                  </td>
+              <div className="col-md-1 mb-3">
+                <button
+                  className="btn btn-primary w-100"
+                  onClick={addOrder}
+                >
+                  +
+                </button>
+              </div>
 
-                  <td>{order.total}</td>
+            </div>
 
-                </tr>
-
-              ))}
-
-            </tbody>
-
-          </table>
+          </div>
 
         </div>
 
       </div>
-    </>
+
+    </div>
   )
 }

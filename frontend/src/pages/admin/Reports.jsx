@@ -1,83 +1,149 @@
-import Navbar from '../../components/admin/Navbar'
+import Sidebar from '../../components/admin/Sidebar'
 
 export default function Reports() {
+  const reports = [
+    {
+      bulan: 'Januari',
+      orders: 100,
+      pendapatan: 'Rp 4.000.000'
+    },
+    {
+      bulan: 'Februari',
+      orders: 120,
+      pendapatan: 'Rp 5.200.000'
+    },
+    {
+      bulan: 'Maret',
+      orders: 140,
+      pendapatan: 'Rp 6.000.000'
+    }
+  ]
 
   return (
-    <>
-      <Navbar />
+    <div className="d-flex">
 
-      <div className="container mt-4">
+      <Sidebar />
 
-        <h1 className="mb-4">
-          Reports Laundry
-        </h1>
+      <div
+        className="flex-grow-1 p-4"
+        style={{
+          background: '#f5f6fa',
+          minHeight: '100vh'
+        }}
+      >
 
-        <div className="row">
+        <div className="mb-4">
+
+          <h1 className="fw-bold">
+            Laporan Laundry
+          </h1>
+
+          <p className="text-muted">
+            Ringkasan performa bisnis laundry berdasarkan data bulanan.
+          </p>
+
+        </div>
+
+        {/* Statistik */}
+        <div className="row g-4 mb-4">
 
           <div className="col-md-4">
-            <div className="card p-3 shadow-sm">
-              <h5>Total Orders</h5>
-              <h2>120</h2>
+            <div className="card border-0 shadow-sm">
+              <div className="card-body">
+                <h6 className="text-muted">
+                  Total Orders
+                </h6>
+
+                <h2 className="fw-bold">
+                  120
+                </h2>
+              </div>
             </div>
           </div>
 
           <div className="col-md-4">
-            <div className="card p-3 shadow-sm">
-              <h5>Total Income</h5>
-              <h2>Rp 5.200.000</h2>
+            <div className="card border-0 shadow-sm">
+              <div className="card-body">
+                <h6 className="text-muted">
+                  Total Pendapatan
+                </h6>
+
+                <h2 className="fw-bold text-success">
+                  Rp 5.200.000
+                </h2>
+              </div>
             </div>
           </div>
 
           <div className="col-md-4">
-            <div className="card p-3 shadow-sm">
-              <h5>Total Customers</h5>
-              <h2>58</h2>
+            <div className="card border-0 shadow-sm">
+              <div className="card-body">
+                <h6 className="text-muted">
+                  Total Customer
+                </h6>
+
+                <h2 className="fw-bold text-primary">
+                  58
+                </h2>
+              </div>
             </div>
           </div>
 
         </div>
 
-        <div className="card mt-4 p-4 shadow-sm">
+        {/* Tabel Laporan */}
+        <div className="card border-0 shadow-sm">
 
-          <h4>Laporan Bulanan</h4>
+          <div className="card-header bg-white">
+            <h4 className="mb-0">
+              Laporan Bulanan
+            </h4>
+          </div>
 
-          <table className="table table-bordered mt-3">
+          <div className="card-body">
 
-            <thead className="table-dark">
-              <tr>
-                <th>Bulan</th>
-                <th>Orders</th>
-                <th>Pendapatan</th>
-              </tr>
-            </thead>
+            <div className="table-responsive">
 
-            <tbody>
+              <table className="table table-hover align-middle">
 
-              <tr>
-                <td>Januari</td>
-                <td>100</td>
-                <td>Rp 4.000.000</td>
-              </tr>
+                <thead className="table-light">
+                  <tr>
+                    <th>Bulan</th>
+                    <th>Total Orders</th>
+                    <th>Pendapatan</th>
+                  </tr>
+                </thead>
 
-              <tr>
-                <td>Februari</td>
-                <td>120</td>
-                <td>Rp 5.200.000</td>
-              </tr>
+                <tbody>
 
-              <tr>
-                <td>Maret</td>
-                <td>140</td>
-                <td>Rp 6.000.000</td>
-              </tr>
+                  {reports.map((report, index) => (
 
-            </tbody>
+                    <tr key={index}>
 
-          </table>
+                      <td>{report.bulan}</td>
+
+                      <td>{report.orders}</td>
+
+                      <td className="fw-semibold text-success">
+                        {report.pendapatan}
+                      </td>
+
+                    </tr>
+
+                  ))}
+
+                </tbody>
+
+              </table>
+
+            </div>
+
+          </div>
 
         </div>
 
       </div>
-    </>
+
+    </div>
   )
 }

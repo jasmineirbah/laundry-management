@@ -1,7 +1,6 @@
-import Navbar from '../../components/admin/Navbar'
+import Sidebar from '../../components/admin/Sidebar'
 
 export default function Customers() {
-
   const customers = [
     {
       id: 'CUS001',
@@ -24,63 +23,148 @@ export default function Customers() {
   ]
 
   return (
-    <>
-      <Navbar />
+    <div className="d-flex">
 
-      <div className="container">
+      <Sidebar />
 
-        <h1 className="page-title">
-          Data Customers
-        </h1>
+      <div
+        className="flex-grow-1 p-4"
+        style={{
+          background: '#f5f6fa',
+          minHeight: '100vh'
+        }}
+      >
 
-        <div className="table-container">
+        <div className="mb-4">
 
-          {/* HEADER */}
-          <div className="custom-table-header">
+          <h1 className="fw-bold">
+            Data Customers
+          </h1>
 
-            <div>ID Customer</div>
-            <div>Nama</div>
-            <div>No HP</div>
-            <div>Alamat</div>
-            <div>Aksi</div>
+          <p className="text-muted">
+            Kelola seluruh pelanggan laundry.
+          </p>
 
+        </div>
+
+        {/* Statistik */}
+        <div className="row g-4 mb-4">
+
+          <div className="col-md-4">
+            <div className="card border-0 shadow-sm">
+              <div className="card-body">
+                <h6 className="text-muted">
+                  Total Customers
+                </h6>
+
+                <h2 className="fw-bold">
+                  {customers.length}
+                </h2>
+              </div>
+            </div>
           </div>
 
-          {/* DATA */}
-          {customers.map((customer, index) => (
+          <div className="col-md-4">
+            <div className="card border-0 shadow-sm">
+              <div className="card-body">
+                <h6 className="text-muted">
+                  Customer Aktif
+                </h6>
 
-            <div className="payment-row" key={index}>
-
-              <div>{customer.id}</div>
-
-              <div>{customer.nama}</div>
-
-              <div>{customer.nohp}</div>
-
-              <div>{customer.alamat}</div>
-
-              <div>
-
-                <button
-                  className="btn btn-primary"
-                  style={{ marginRight:'10px' }}
-                >
-                  Edit
-                </button>
-
-                <button className="btn btn-danger">
-                  Hapus
-                </button>
-
+                <h2 className="fw-bold text-success">
+                  {customers.length}
+                </h2>
               </div>
+            </div>
+          </div>
+
+          <div className="col-md-4">
+            <div className="card border-0 shadow-sm">
+              <div className="card-body">
+                <h6 className="text-muted">
+                  Member Baru
+                </h6>
+
+                <h2 className="fw-bold text-primary">
+                  3
+                </h2>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Tabel Customer */}
+        <div className="card border-0 shadow-sm">
+
+          <div className="card-header bg-white">
+            <h4 className="mb-0">
+              Daftar Customer
+            </h4>
+          </div>
+
+          <div className="card-body">
+
+            <div className="table-responsive">
+
+              <table className="table table-hover align-middle">
+
+                <thead className="table-light">
+                  <tr>
+                    <th>ID Customer</th>
+                    <th>Nama</th>
+                    <th>No HP</th>
+                    <th>Alamat</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+
+                  {customers.map((customer, index) => (
+
+                    <tr key={index}>
+
+                      <td>{customer.id}</td>
+
+                      <td>{customer.nama}</td>
+
+                      <td>{customer.nohp}</td>
+
+                      <td>{customer.alamat}</td>
+
+                      <td>
+
+                        <button
+                          className="btn btn-primary btn-sm me-2"
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          className="btn btn-danger btn-sm"
+                        >
+                          Hapus
+                        </button>
+
+                      </td>
+
+                    </tr>
+
+                  ))}
+
+                </tbody>
+
+              </table>
 
             </div>
 
-          ))}
+          </div>
 
         </div>
 
       </div>
-    </>
+
+    </div>
   )
 }

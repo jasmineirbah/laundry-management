@@ -1,61 +1,108 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 export default function Sidebar() {
+  const navigate = useNavigate()
+
   return (
     <div
-      className="bg-dark text-white p-3"
+      className="bg-white border-end p-4 d-flex flex-column"
       style={{
-        width: '250px',
+        width: '260px',
         minHeight: '100vh'
       }}
     >
-      <h3 className="mb-4">Laundry Admin</h3>
+      <h2
+        className="fw-bold"
+        style={{
+          color: '#ec4899'
+        }}
+      >
+        Laundry
+      </h2>
 
-      <ul className="nav flex-column gap-2">
+      <p className="text-muted">
+        Cloud Laundry System
+      </p>
 
-        <li className="nav-item">
-          <Link className="nav-link text-white" to="/">
+      <hr />
+
+      <h6 className="fw-bold text-secondary mb-4">
+        ADMIN
+      </h6>
+
+      <ul className="nav flex-column gap-3 flex-grow-1">
+
+        <li>
+          <Link
+            className="nav-link text-dark"
+            to="/admin/dashboard"
+          >
             Dashboard
           </Link>
         </li>
 
-        <li className="nav-item">
-          <Link className="nav-link text-white" to="/orders">
+        <li>
+          <Link
+            className="nav-link text-dark"
+            to="/admin/orders"
+          >
             Orders
           </Link>
         </li>
 
-        <li className="nav-item">
-          <Link className="nav-link text-white" to="/payments">
+        <li>
+          <Link
+            className="nav-link text-dark"
+            to="/admin/payments"
+          >
             Payments
           </Link>
         </li>
 
-        <li className="nav-item">
-          <Link className="nav-link text-white" to="/customers">
+        <li>
+          <Link
+            className="nav-link text-dark"
+            to="/admin/customers"
+          >
             Customers
           </Link>
         </li>
 
-        <li className="nav-item">
-          <Link className="nav-link text-white" to="/employees">
+        <li>
+          <Link
+            className="nav-link text-dark"
+            to="/admin/employees"
+          >
             Employees
           </Link>
         </li>
 
-        <li className="nav-item">
-          <Link className="nav-link text-white" to="/tracking">
+        <li>
+          <Link
+            className="nav-link text-dark"
+            to="/admin/reports"
+          >
+            Reports
+          </Link>
+        </li>
+
+        <li>
+          <Link
+            className="nav-link text-dark"
+            to="/admin/packages"
+          >
             Tracking
           </Link>
         </li>
 
-        <li className="nav-item mt-4">
-          <button className="btn btn-danger w-100">
-            Logout
-          </button>
-        </li>
-
       </ul>
+
+      <button
+        className="btn btn-danger mt-auto"
+        onClick={() => navigate('/')}
+      >
+        Logout
+      </button>
     </div>
   )
 }

@@ -1,16 +1,13 @@
 import { Link } from 'react-router-dom'
 
 export default function Navbar() {
-
   return (
-
     <nav className="navbar navbar-expand-lg">
-
       <div className="container-fluid">
 
         <Link
           className="navbar-brand"
-          to="/"
+          to="/admin/dashboard"
         >
           Laundry Admin
         </Link>
@@ -28,51 +25,75 @@ export default function Navbar() {
           className="collapse navbar-collapse"
           id="navbarNav"
         >
-
           <ul className="navbar-nav ms-auto">
 
             <li className="nav-item">
-              <Link className="nav-link" to="/">
+              <Link
+                className="nav-link"
+                to="/admin/dashboard"
+              >
                 Dashboard
               </Link>
             </li>
 
             <li className="nav-item">
-              <Link className="nav-link" to="/orders">
+              <Link
+                className="nav-link"
+                to="/admin/orders"
+              >
                 Orders
               </Link>
             </li>
 
             <li className="nav-item">
-              <Link className="nav-link" to="/payments">
+              <Link
+                className="nav-link"
+                to="/admin/payments"
+              >
                 Payments
               </Link>
             </li>
 
             <li className="nav-item">
-              <Link className="nav-link" to="/customers">
+              <Link
+                className="nav-link"
+                to="/admin/customers"
+              >
                 Customers
               </Link>
             </li>
 
             <li className="nav-item">
-              <Link className="nav-link" to="/employees">
+              <Link
+                className="nav-link"
+                to="/admin/employees"
+              >
                 Employees
               </Link>
             </li>
 
             <li className="nav-item">
-              <Link className="nav-link" to="/tracking">
+              <Link
+                className="nav-link"
+                to="/admin/reports"
+              >
+                Reports
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link
+                className="nav-link"
+                to="/admin/packages"
+              >
                 Tracking
               </Link>
             </li>
 
           </ul>
-
         </div>
 
       </div>
-
     </nav>
   )
 }

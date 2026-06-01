@@ -1,22 +1,15 @@
-import Navbar from '../../components/admin/Navbar'
 import { useEffect, useState } from 'react'
+import Sidebar from '../../components/admin/Sidebar'
 import api from '../../services/api'
 
 export default function Orders() {
-
   const [orders, setOrders] = useState([])
 
-  // AMBIL DATA
   const fetchOrders = async () => {
-
     try {
-
       const response = await api.get('/orders')
-
       setOrders(response.data)
-
     } catch (error) {
-
       console.log('Backend belum jalan, pakai dummy data')
 
       setOrders([
@@ -39,136 +32,157 @@ export default function Orders() {
           status: 'Menunggu'
         }
       ])
-
     }
-
   }
 
   useEffect(() => {
     fetchOrders()
   }, [])
 
-  // UPDATE STATUS
   const updateStatus = async (id, newStatus) => {
-
     try {
-
       await api.put(`/orders/${id}`, {
         status: newStatus
       })
 
       alert('Status berhasil diupdate')
-
       fetchOrders()
-
     } catch (error) {
-
       console.log(error)
-
       alert('Gagal update status')
-
     }
-
   }
 
-  // DELETE
   const deleteOrder = async (id) => {
-
     try {
-
       await api.delete(`/orders/${id}`)
 
       alert('Order berhasil dihapus')
-
       fetchOrders()
-
     } catch (error) {
-
       console.log(error)
-
       alert('Gagal hapus order')
-
     }
-
   }
 
   return (
-    <>
-      <Navbar />
+    <div className="d-flex">
 
-      <div className="container">
+      <Sidebar />
 
-        <h1 className="page-title">
-          Data Orders
-        </h1>
+      <div
+        className="flex-grow-1 p-4"
+        style={{
+          background: '#f5f6fa',
+          minHeight: '100vh'
+        }}
+      >
 
-        <div className="table-container">
+        <div className="mb-4">
+          <h1 className="fw-bold">
+            Manajemen Orders
+          </h1>
 
-          {/* HEADER */}
-          <div className="custom-table-header">
+          <p className="text-muted">
+            Kelola seluruh pesanan laundry pelanggan.
+          </p>
+        </div>
 
-            <div>ID Order</div>
-            <div>Customer</div>
-            <div>Paket</div>
-            <div>Status</div>
-            <div>Update</div>
-            <div>Aksi</div>
+        <div className="card border-0 shadow-sm">
 
+          <div className="card-header bg-white">
+            <h4 className="mb-0">
+              Data Orders
+            </h4>
           </div>
 
-          {/* DATA */}
-          {orders.map((order, index) => (
+          <div className="card-body">
 
-            <div className="payment-row" key={index}>
+            <div className="table-responsive">
 
-              <div>{order.id}</div>
+              <table className="table table-hover align-middle">
 
-              <div>{order.customer}</div>
+                <thead className="table-light">
+                  <tr>
+                    <th>ID Order</th>
+                    <th>Customer</th>
+                    <th>Paket</th>
+                    <th>Status</th>
+                    <th>Update Status</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
 
-              <div>{order.package}</div>
+                <tbody>
 
-              <div>
+                  {orders.map((order, index) => (
 
-                <span className="badge bg-primary">
-                  {order.status}
-                </span>
+                    <tr key={index}>
 
-              </div>
+                      <td>{order.id}</td>
 
-              <div>
+                      <td>{order.customer}</td>
 
-                <select
-                  className="form-control"
-                  defaultValue={order.status}
-                  onChange={(e) =>
-                    updateStatus(order.id, e.target.value)
-                  }
-                >
-                  <option>Menunggu</option>
-                  <option>Diproses</option>
-                  <option>Selesai</option>
-                </select>
+                      <td>{order.package}</td>
 
-              </div>
+                      <td>
+                        <span
+                          className={`badge ${
+                            order.status === 'Selesai'
+                              ? 'bg-success'
+                              : order.status === 'Diproses'
+                              ? 'bg-warning text-dark'
+                              : 'bg-secondary'
+                          }`}
+                        >
+                          {order.status}
+                        </span>
+                      </td>
 
-              <div>
+                      <td style={{ width: '220px' }}>
+                        <select
+                          className="form-select"
+                          defaultValue={order.status}
+                          onChange={(e) =>
+                            updateStatus(
+                              order.id,
+                              e.target.value
+                            )
+                          }
+                        >
+                          <option>Menunggu</option>
+                          <option>Diproses</option>
+                          <option>Selesai</option>
+                        </select>
+                      </td>
 
-                <button
-                  className="btn btn-danger"
-                  onClick={() => deleteOrder(order.id)}
-                >
-                  Delete
-                </button>
+                      <td>
+                        <button
+                          className="btn btn-danger btn-sm"
+                          onClick={() =>
+                            deleteOrder(order.id)
+                          }
+                        >
+                          Delete
+                        </button>
+                      </td>
 
-              </div>
+                    </tr>
+
+                  ))}
+
+                </tbody>
+
+              </table>
 
             </div>
 
-          ))}
+          </div>
 
         </div>
 
       </div>
-    </>
+
+    </div>
   )
 }

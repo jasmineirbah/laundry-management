@@ -1,7 +1,6 @@
-import Navbar from '../../components/admin/Navbar'
+import Sidebar from '../../components/admin/Sidebar'
 
 export default function Payments() {
-
   const payments = [
     {
       id: 'PAY001',
@@ -24,75 +23,168 @@ export default function Payments() {
   ]
 
   return (
-    <>
-      <Navbar />
+    <div className="d-flex">
 
-      <div className="container">
+      <Sidebar />
 
-        <h1 className="page-title">
-          Data Pembayaran
-        </h1>
+      <div
+        className="flex-grow-1 p-4"
+        style={{
+          background: '#f5f6fa',
+          minHeight: '100vh'
+        }}
+      >
 
-        <div className="table-container">
+        <div className="mb-4">
 
-          {/* HEADER */}
-          <div className="custom-table-header">
+          <h1 className="fw-bold">
+            Data Pembayaran
+          </h1>
 
-            <div>ID Pembayaran</div>
-            <div>Customer</div>
-            <div>Total</div>
-            <div>Status</div>
-            <div>Aksi</div>
+          <p className="text-muted">
+            Kelola seluruh transaksi pembayaran pelanggan.
+          </p>
 
+        </div>
+
+        {/* Statistik */}
+        <div className="row g-4 mb-4">
+
+          <div className="col-md-4">
+            <div className="card border-0 shadow-sm">
+              <div className="card-body">
+                <h6 className="text-muted">
+                  Total Pembayaran
+                </h6>
+
+                <h2 className="fw-bold">
+                  {payments.length}
+                </h2>
+              </div>
+            </div>
           </div>
 
-          {/* DATA */}
-          {payments.map((payment, index) => (
+          <div className="col-md-4">
+            <div className="card border-0 shadow-sm">
+              <div className="card-body">
+                <h6 className="text-muted">
+                  Pembayaran Lunas
+                </h6>
 
-            <div className="payment-row" key={index}>
-
-              <div>{payment.id}</div>
-
-              <div>{payment.customer}</div>
-
-              <div>{payment.total}</div>
-
-              <div>
-
-                <span
-                  className={
-                    payment.status === 'Lunas'
-                    ? 'badge bg-success'
-                    : 'badge bg-warning'
+                <h2 className="fw-bold text-success">
+                  {
+                    payments.filter(
+                      (p) => p.status === 'Lunas'
+                    ).length
                   }
-                >
-                  {payment.status}
-                </span>
-
+                </h2>
               </div>
+            </div>
+          </div>
 
-              <div>
+          <div className="col-md-4">
+            <div className="card border-0 shadow-sm">
+              <div className="card-body">
+                <h6 className="text-muted">
+                  Belum Bayar
+                </h6>
 
-                <button
-                  className="btn btn-primary"
-                  style={{ marginRight:'10px' }}
-                >
-                  Edit
-                </button>
-
-                <button className="btn btn-danger">
-                  Hapus
-                </button>
-
+                <h2 className="fw-bold text-warning">
+                  {
+                    payments.filter(
+                      (p) => p.status === 'Belum Bayar'
+                    ).length
+                  }
+                </h2>
               </div>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Tabel Pembayaran */}
+        <div className="card border-0 shadow-sm">
+
+          <div className="card-header bg-white">
+            <h4 className="mb-0">
+              Daftar Pembayaran
+            </h4>
+          </div>
+
+          <div className="card-body">
+
+            <div className="table-responsive">
+
+              <table className="table table-hover align-middle">
+
+                <thead className="table-light">
+                  <tr>
+                    <th>ID Pembayaran</th>
+                    <th>Customer</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+
+                  {payments.map((payment, index) => (
+
+                    <tr key={index}>
+
+                      <td>{payment.id}</td>
+
+                      <td>{payment.customer}</td>
+
+                      <td>{payment.total}</td>
+
+                      <td>
+
+                        <span
+                          className={
+                            payment.status === 'Lunas'
+                              ? 'badge bg-success'
+                              : 'badge bg-warning text-dark'
+                          }
+                        >
+                          {payment.status}
+                        </span>
+
+                      </td>
+
+                      <td>
+
+                        <button
+                          className="btn btn-primary btn-sm me-2"
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          className="btn btn-danger btn-sm"
+                        >
+                          Hapus
+                        </button>
+
+                      </td>
+
+                    </tr>
+
+                  ))}
+
+                </tbody>
+
+              </table>
 
             </div>
 
-          ))}
+          </div>
 
         </div>
 
       </div>
-    </>
+
+    </div>
   )
 }

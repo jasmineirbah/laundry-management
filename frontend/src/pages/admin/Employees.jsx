@@ -1,7 +1,6 @@
-import Navbar from '../../components/admin/Navbar'
+import Sidebar from '../../components/admin/Sidebar'
 
 export default function Employees() {
-
   const employees = [
     {
       id: 'EMP001',
@@ -21,69 +20,152 @@ export default function Employees() {
   ]
 
   return (
-    <>
-      <Navbar />
+    <div className="d-flex">
 
-      <div className="container">
+      <Sidebar />
 
-        <h1 className="page-title">
-          Data Pegawai
-        </h1>
+      <div
+        className="flex-grow-1 p-4"
+        style={{
+          background: '#f5f6fa',
+          minHeight: '100vh'
+        }}
+      >
 
-        <div className="table-container">
+        <div className="mb-4">
 
-          {/* HEADER */}
-          <div className="custom-table-header">
+          <h1 className="fw-bold">
+            Data Pegawai
+          </h1>
 
-            <div>ID Pegawai</div>
-            <div>Nama</div>
-            <div>Posisi</div>
-            <div>Status</div>
-            <div>Aksi</div>
+          <p className="text-muted">
+            Kelola data karyawan dan staf laundry.
+          </p>
 
+        </div>
+
+        {/* Statistik */}
+        <div className="row g-4 mb-4">
+
+          <div className="col-md-4">
+            <div className="card border-0 shadow-sm">
+              <div className="card-body">
+                <h6 className="text-muted">
+                  Total Pegawai
+                </h6>
+
+                <h2 className="fw-bold">
+                  {employees.length}
+                </h2>
+              </div>
+            </div>
           </div>
 
-          {/* DATA */}
-          {employees.map((employee, index) => (
+          <div className="col-md-4">
+            <div className="card border-0 shadow-sm">
+              <div className="card-body">
+                <h6 className="text-muted">
+                  Pegawai Aktif
+                </h6>
 
-            <div className="payment-row" key={index}>
-
-              <div>{employee.id}</div>
-
-              <div>{employee.nama}</div>
-
-              <div>{employee.posisi}</div>
-
-              <div>
-
-                <span className="badge bg-success">
-                  Aktif
-                </span>
-
+                <h2 className="fw-bold text-success">
+                  {employees.length}
+                </h2>
               </div>
+            </div>
+          </div>
 
-              <div>
+          <div className="col-md-4">
+            <div className="card border-0 shadow-sm">
+              <div className="card-body">
+                <h6 className="text-muted">
+                  Posisi Tersedia
+                </h6>
 
-                <button
-                  className="btn btn-primary"
-                  style={{ marginRight:'10px' }}
-                >
-                  Edit
-                </button>
-
-                <button className="btn btn-danger">
-                  Hapus
-                </button>
-
+                <h2 className="fw-bold text-primary">
+                  3
+                </h2>
               </div>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Tabel Pegawai */}
+        <div className="card border-0 shadow-sm">
+
+          <div className="card-header bg-white">
+            <h4 className="mb-0">
+              Daftar Pegawai
+            </h4>
+          </div>
+
+          <div className="card-body">
+
+            <div className="table-responsive">
+
+              <table className="table table-hover align-middle">
+
+                <thead className="table-light">
+                  <tr>
+                    <th>ID Pegawai</th>
+                    <th>Nama</th>
+                    <th>Posisi</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+
+                  {employees.map((employee, index) => (
+
+                    <tr key={index}>
+
+                      <td>{employee.id}</td>
+
+                      <td>{employee.nama}</td>
+
+                      <td>{employee.posisi}</td>
+
+                      <td>
+                        <span className="badge bg-success">
+                          Aktif
+                        </span>
+                      </td>
+
+                      <td>
+
+                        <button
+                          className="btn btn-primary btn-sm me-2"
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          className="btn btn-danger btn-sm"
+                        >
+                          Hapus
+                        </button>
+
+                      </td>
+
+                    </tr>
+
+                  ))}
+
+                </tbody>
+
+              </table>
 
             </div>
 
-          ))}
+          </div>
 
         </div>
 
       </div>
-    </>
+
+    </div>
   )
 }
