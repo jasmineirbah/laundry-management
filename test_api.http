@@ -1,0 +1,21 @@
+### 1. Tes Ambil Semua Paket (GET)
+GET http://localhost:3000/api/paket
+
+### 2. Tes Tambah Paket Baru (POST)
+POST http://localhost:3000/api/paket
+Content-Type: application/json
+
+{
+    "nama_paket": "Paket Kilat 3 Jam",
+    "harga_per_kg": 25000,
+    "estimasi_waktu": "3 Jam"
+}
+
+### 3. Tes Mengubah Status Cucian (PUT)
+### (Ganti angka 1 di bawah sesuai dengan ID orderan yang ada di databasemu)
+PUT http://localhost:3000/api/orders/1/status
+Content-Type: application/json
+
+{
+    "status_cucian": "dicuci"
+}
