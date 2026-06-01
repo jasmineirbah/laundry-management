@@ -1,6 +1,8 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom' // 1. Tambahkan useNavigate di sini
 
 export default function Sidebar() {
+  const navigate = useNavigate() // 2. Inisialisasi fungsi navigate
+
   return (
     <div
       className="bg-white border-end"
@@ -57,6 +59,19 @@ export default function Sidebar() {
         >
           Profile
         </Link>
+
+        {/* --- TAMBAHAN MENU LOGOUT TEPAT DI BAWAH PROFILE --- */}
+        <button
+          onClick={() => {
+            alert('Logout berhasil!')
+            navigate('/')
+          }}
+          className="d-block bg-transparent border-0 p-0 text-decoration-none text-dark w-100 text-start"
+          style={{ fontSize: 'inherit' }}
+        >
+          Logout
+        </button>
+        {/* --- BATAS AKHIR TAMBAHAN --- */}
 
       </div>
     </div>
