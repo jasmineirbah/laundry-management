@@ -1,7 +1,24 @@
 import { Link, useNavigate } from 'react-router-dom'
 
 export default function Sidebar() {
+
   const navigate = useNavigate()
+
+  const employee =
+    JSON.parse(
+      localStorage.getItem('employee')
+    )
+
+  const jabatan =
+    employee?.jabatan || 'Admin'
+
+  const logout = () => {
+
+    localStorage.removeItem('employee')
+
+    navigate('/')
+
+  }
 
   return (
     <div
@@ -11,6 +28,7 @@ export default function Sidebar() {
         minHeight: '100vh'
       }}
     >
+
       <h2
         className="fw-bold"
         style={{
@@ -27,82 +45,103 @@ export default function Sidebar() {
       <hr />
 
       <h6 className="fw-bold text-secondary mb-4">
-        ADMIN
+        {jabatan.toUpperCase()}
       </h6>
 
       <ul className="nav flex-column gap-3 flex-grow-1">
 
+        {/* Dashboard */}
+
         <li>
           <Link
             className="nav-link text-dark"
-            to="/admin/dashboard"
+            to={`/${jabatan.toLowerCase()}/dashboard`}
           >
             Dashboard
           </Link>
         </li>
 
-        <li>
-          <Link
-            className="nav-link text-dark"
-            to="/admin/orders"
-          >
-            Orders
-          </Link>
-        </li>
+        {/* KASIR + ADMIN */}
 
-        <li>
-          <Link
-            className="nav-link text-dark"
-            to="/admin/payments"
-          >
-            Payments
-          </Link>
-        </li>
+        {(jabatan === 'Admin' ||
+          jabatan === 'Kasir') && (
+          <>
+            <li>
+              <Link
+                className="nav-link text-dark"
+                to="/admin/orders"
+              >
+                Orders
+              </Link>
+            </li>
 
-        <li>
-          <Link
-            className="nav-link text-dark"
-            to="/admin/customers"
-          >
-            Customers
-          </Link>
-        </li>
+            <li>
+              <Link
+                className="nav-link text-dark"
+                to="/admin/payments"
+              >
+                Payments
+              </Link>
+            </li>
 
-        <li>
-          <Link
-            className="nav-link text-dark"
-            to="/admin/employees"
-          >
-            Employees
-          </Link>
-        </li>
+            <li>
+              <Link
+                className="nav-link text-dark"
+                to="/admin/customers"
+              >
+                Customers
+              </Link>
+            </li>
+          </>
+        )}
 
-        <li>
-          <Link
-            className="nav-link text-dark"
-            to="/admin/reports"
-          >
-            Reports
-          </Link>
-        </li>
+        {/* ADMIN ONLY */}
 
-        <li>
-          <Link
-            className="nav-link text-dark"
-            to="/admin/packages"
-          >
-            Tracking
-          </Link>
-        </li>
+        {jabatan === 'Admin' && (
+          <>
+            <li>
+              <Link
+                className="nav-link text-dark"
+                to="/admin/employees"
+              >
+                Employees
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                className="nav-link text-dark"
+                to="/admin/reports"
+              >
+                Reports
+              </Link>
+            </li>
+          </>
+        )}
+
+        {/* ADMIN + KURIR */}
+
+        {(jabatan === 'Admin' ||
+          jabatan === 'Kurir') && (
+          <li>
+            <Link
+              className="nav-link text-dark"
+              to="/admin/packages"
+            >
+              Tracking
+            </Link>
+          </li>
+        )}
 
       </ul>
 
       <button
         className="btn btn-danger mt-auto"
-        onClick={() => navigate('/')}
+        onClick={logout}
       >
         Logout
       </button>
+
     </div>
   )
 }

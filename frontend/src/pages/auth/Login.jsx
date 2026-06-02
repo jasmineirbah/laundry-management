@@ -52,8 +52,27 @@ export default function Login() {
       const result = await response.json()
 
       if (result.isEmployee) {
-        alert('Login berhasil!')
-        navigate('/admin/dashboard')
+
+        localStorage.setItem(
+          'employee',
+          JSON.stringify(result.data)
+        )
+
+        const jabatan =
+          result.data.jabatan
+
+        if (jabatan === 'Admin') {
+          navigate('/admin/dashboard')
+        }
+
+        else if (jabatan === 'Kasir') {
+          navigate('/kasir/dashboard')
+        }
+
+        else if (jabatan === 'Kurir') {
+          navigate('/kurir/dashboard')
+        }
+
       } else {
         alert('Login berhasil sebagai Customer!')
         navigate('/customer/dashboard')

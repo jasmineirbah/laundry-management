@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+// Auth
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 
@@ -18,25 +19,115 @@ import Payments from "../pages/admin/Payments";
 import Reports from "../pages/admin/Reports";
 import Packages from "../pages/admin/Packages";
 
+// Kasir & Kurir
+import KasirDashboard from "../pages/kasir/Dashboard";
+import KurirDashboard from "../pages/kurir/Dashboard";
+
+// Protected Route
+import ProtectedRoute from "./ProtectedRoute";
+
 function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
+
+        {/* AUTH */}
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
+        {/* CUSTOMER */}
         <Route path="/customer/dashboard" element={<Dashboard />} />
         <Route path="/customer/new-order" element={<NewOrder />} />
         <Route path="/customer/history" element={<History />} />
         <Route path="/customer/profile" element={<Profile />} />
 
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/orders" element={<Orders />} />
-        <Route path="/admin/customers" element={<Customers />} />
-        <Route path="/admin/employees" element={<Employees />} />
-        <Route path="/admin/payments" element={<Payments />} />
-        <Route path="/admin/reports" element={<Reports />} />
-        <Route path="/admin/packages" element={<Packages />} />
+        {/* ================= ADMIN ================= */}
+
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute allowedRoles={["Admin"]}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/orders"
+          element={
+            <ProtectedRoute allowedRoles={["Admin", "Kasir"]}>
+              <Orders />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/customers"
+          element={
+            <ProtectedRoute allowedRoles={["Admin", "Kasir"]}>
+              <Customers />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/payments"
+          element={
+            <ProtectedRoute allowedRoles={["Admin", "Kasir"]}>
+              <Payments />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/employees"
+          element={
+            <ProtectedRoute allowedRoles={["Admin"]}>
+              <Employees />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/reports"
+          element={
+            <ProtectedRoute allowedRoles={["Admin"]}>
+              <Reports />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/packages"
+          element={
+            <ProtectedRoute allowedRoles={["Admin", "Kurir"]}>
+              <Packages />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ================= KASIR ================= */}
+
+        <Route
+          path="/kasir/dashboard"
+          element={
+            <ProtectedRoute allowedRoles={["Kasir"]}>
+              <KasirDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ================= KURIR ================= */}
+
+        <Route
+          path="/kurir/dashboard"
+          element={
+            <ProtectedRoute allowedRoles={["Kurir"]}>
+              <KurirDashboard />
+            </ProtectedRoute>
+          }
+        />
+
       </Routes>
     </BrowserRouter>
   );
