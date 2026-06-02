@@ -6,33 +6,63 @@ import { signInWithEmailAndPassword } from 'firebase/auth'
 
 export default function Login() {
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [role, setRole] = useState('customer') // Default otomatis ke customer
+  const [password, setPassword] = useState('') 
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
   const handleLogin = async (e) => {
     e.preventDefault()
+
     setError('')
     setLoading(true)
 
     try {
-      // Autentikasi email dan password ke Firebase Cloud
-      await signInWithEmailAndPassword(auth, email, password)
 
-      // Memeriksa pilihan role di dropdown untuk menentukan arah halaman
-      if (role === 'admin') {
-        alert('Login Berhasil sebagai Petugas Laundry (Admin)!')
-        navigate('/admin/dashboard') // Mengarah ke Dashboard Admin
+      const userCredential =
+        await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        )
+
+      const user = userCredential.user
+
+      await fetch(
+        'http://localhost:3000/api/employees/sync-uid',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: user.email,
+            firebase_uid: user.uid
+          })
+        }
+      )
+
+      const userEmail =
+        userCredential.user.email
+
+      const response = await fetch(
+        `http://localhost:3000/api/employees/check-employee/${userEmail}`
+      )
+
+      const result = await response.json()
+
+      if (result.isEmployee) {
+        alert('Login berhasil!')
+        navigate('/admin/dashboard')
       } else {
-        alert('Login Berhasil sebagai Pelanggan (Customer)!')
-        navigate('/customer/dashboard') // Mengarah ke Home Pelanggan milikmu
+        alert('Login berhasil sebagai Customer!')
+        navigate('/customer/dashboard')
       }
-
     } catch (err) {
       console.error(err)
-      setError('Gagal Masuk: Email/Password salah atau akun belum terdaftar.')
+      setError(
+        'Gagal Masuk: Email atau Password salah.'
+      )
     } finally {
       setLoading(false)
     }
@@ -68,18 +98,6 @@ export default function Login() {
             required 
             style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ccc', boxSizing: 'border-box' }} 
           />
-        </div>
-
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px' }}>Masuk Sebagai:</label>
-          <select 
-            value={role} 
-            onChange={(e) => setRole(e.target.value)} 
-            style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ccc', backgroundColor: 'white' }}
-          >
-            <option value="customer">Pelanggan (Customer)</option>
-            <option value="admin">Petugas Laundry (Admin / Kasir)</option>
-          </select>
         </div>
 
         <button 
