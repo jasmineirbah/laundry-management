@@ -58,24 +58,30 @@ export default function Login() {
           JSON.stringify(result.data)
         )
 
-        const jabatan =
-          result.data.jabatan
+        const jabatan = result.data.jabatan
 
         if (jabatan === 'Admin') {
+
+          alert('Login sebagai Admin')
           navigate('/admin/dashboard')
-        }
 
-        else if (jabatan === 'Kasir') {
+        } else if (jabatan === 'Kasir') {
+
+          alert('Login sebagai Kasir')
           navigate('/kasir/dashboard')
-        }
 
-        else if (jabatan === 'Kurir') {
+        } else if (jabatan === 'Kurir') {
+
+          alert('Login sebagai Kurir')
           navigate('/kurir/dashboard')
+
         }
 
       } else {
+
         alert('Login berhasil sebagai Customer!')
         navigate('/customer/dashboard')
+
       }
     } catch (err) {
       console.error(err)

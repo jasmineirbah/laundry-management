@@ -41,8 +41,12 @@ const createOrder = async (req, res) => {
 
         // Otomatis buatkan juga tagihan kosong di tabel pembayaran untuk order ini
         await db.query(
-            'INSERT INTO pembayaran (order_id, jumlah_bayar, status_pembayaran) VALUES (?, ?, "belum_bayar")',
-            [orderId, total_harga]
+            `
+            INSERT INTO pembayaran
+            (order_id, total, status)
+            VALUES (?, ?, ?)
+            `,
+            [orderId, total_harga, 'Belum Bayar']
         );
 
         res.json({ success: true, message: "Order dan tagihan berhasil dibuat!", orderId });
@@ -56,7 +60,14 @@ const updateStatusCucian = async (req, res) => {
     const { id } = req.params;
     const { status_cucian } = req.body; // 'antrean', 'dicuci', 'disetrika', 'siap_ambil', 'selesai'
     try {
-        await db.query('UPDATE order_laundry SET status_cucian = ? WHERE id = ?', [status_cucian, id]);
+        await db.query(
+  `
+  UPDATE order_laundry
+    SET status = ?
+    WHERE id = ?
+    `,
+    [status_cucian, id]
+  );
         res.json({ success: true, message: `Status cucian berhasil diubah menjadi ${status_cucian}` });
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });
@@ -69,9 +80,16 @@ const bayarOrder = async (req, res) => {
     const { metode_pembayaran } = req.body; // 'tunai', 'qris', 'transfer'
     try {
         await db.query(
-            'UPDATE pembayaran SET metode_pembayaran = ?, status_pembayaran = "lunas", waktu_bayar = NOW() WHERE order_id = ?',
+            `
+            UPDATE pembayaran
+            SET
+                metode = ?,
+                status = 'Lunas',
+                waktu_bayar = NOW()
+            WHERE order_id = ?
+            `,
             [metode_pembayaran, id]
-        );
+            );
         res.json({ success: true, message: "Pembayaran berhasil diproses, status LUNAS!" });
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });

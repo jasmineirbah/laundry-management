@@ -70,7 +70,36 @@ const syncFirebaseUid = async (req, res) => {
   }
 }
 
+const getAllEmployees = async (req, res) => {
+
+  try {
+
+    const [rows] = await db.query(
+      `
+      SELECT *
+      FROM pegawai
+      ORDER BY id ASC
+      `
+    )
+
+    res.json({
+      success: true,
+      data: rows
+    })
+
+  } catch (error) {
+
+    res.status(500).json({
+      success: false,
+      error: error.message
+    })
+
+  }
+
+}
+
 module.exports = {
   checkEmployee,
-  syncFirebaseUid
+  syncFirebaseUid,
+  getAllEmployees
 }

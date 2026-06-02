@@ -1,37 +1,19 @@
 import { useEffect, useState } from 'react'
 import Sidebar from '../../components/admin/Sidebar'
 import api from '../../services/api'
+import { saveTrackingStatus } from '../../services/trackingService'
 
 export default function Orders() {
   const [orders, setOrders] = useState([])
 
   const fetchOrders = async () => {
     try {
-      const response = await api.get('/orders')
-      setOrders(response.data)
+      const response =
+        await api.get('/api/orders')
+      setOrders(response.data.data)
     } catch (error) {
-      console.log('Backend belum jalan, pakai dummy data')
-
-      setOrders([
-        {
-          id: 'ORD001',
-          customer: 'Budi',
-          package: 'Cuci Kering',
-          status: 'Diproses'
-        },
-        {
-          id: 'ORD002',
-          customer: 'Siti',
-          package: 'Setrika',
-          status: 'Selesai'
-        },
-        {
-          id: 'ORD003',
-          customer: 'Andi',
-          package: 'Cuci Express',
-          status: 'Menunggu'
-        }
-      ])
+      console.error(error)
+      setOrders([])
     }
   }
 
@@ -39,23 +21,37 @@ export default function Orders() {
     fetchOrders()
   }, [])
 
-  const updateStatus = async (id, newStatus) => {
+  const updateStatus = async (
+    id,
+    customerName,
+    newStatus
+  ) => {
     try {
-      await api.put(`/orders/${id}`, {
-        status: newStatus
+      await api.put(`/api/orders/${id}/status`, {
+        status_cucian: newStatus
       })
-
+      await saveTrackingStatus(
+        id,
+        customerName,
+        newStatus
+      )
       alert('Status berhasil diupdate')
       fetchOrders()
     } catch (error) {
-      console.log(error)
-      alert('Gagal update status')
-    }
+        console.log(error)
+        console.log(error.response)
+        console.log(error.response?.data)
+        alert(
+          JSON.stringify(
+            error.response?.data || error.message
+          )
+        )
+      }
   }
 
   const deleteOrder = async (id) => {
     try {
-      await api.delete(`/orders/${id}`)
+      await api.delete(`/api/orders/${id}`)
 
       alert('Order berhasil dihapus')
       fetchOrders()
@@ -104,11 +100,14 @@ export default function Orders() {
 
                 <thead className="table-light">
                   <tr>
-                    <th>ID Order</th>
+                    <th>ID</th>
                     <th>Customer</th>
                     <th>Paket</th>
+                    <th>Berat (Kg)</th>
+                    <th>Total</th>
+                    <th>Tanggal</th>
                     <th>Status</th>
-                    <th>Update Status</th>
+                    <th>Update</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
@@ -121,9 +120,20 @@ export default function Orders() {
 
                       <td>{order.id}</td>
 
-                      <td>{order.customer}</td>
+                      <td>{order.nama_pelanggan}</td>
 
-                      <td>{order.package}</td>
+                      <td>{order.nama_paket}</td>
+
+                      <td>{order.berat_kg} Kg</td>
+
+                      <td>
+                        Rp {Number(order.total_harga).toLocaleString('id-ID')}
+                      </td>
+
+                      <td>
+                        {new Date(order.tanggal_masuk)
+                          .toLocaleDateString('id-ID')}
+                      </td>
 
                       <td>
                         <span
@@ -142,17 +152,20 @@ export default function Orders() {
                       <td style={{ width: '220px' }}>
                         <select
                           className="form-select"
-                          defaultValue={order.status}
+                          value={order.status}
                           onChange={(e) =>
                             updateStatus(
                               order.id,
+                              order.nama_pelanggan,
                               e.target.value
                             )
                           }
                         >
-                          <option>Menunggu</option>
-                          <option>Diproses</option>
-                          <option>Selesai</option>
+                          <option value="Menunggu">Menunggu</option>
+                          <option value="Diproses">Diproses</option>
+                          <option value="Dicuci">Dicuci</option>
+                          <option value="Selesai">Selesai</option>
+                          <option value="Diambil">Diambil</option>
                         </select>
                       </td>
 

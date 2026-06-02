@@ -3,7 +3,8 @@ const router = express.Router()
 
 const {
   checkEmployee,
-  syncFirebaseUid
+  syncFirebaseUid,
+  getAllEmployees
 } = require('../controllers/employeeController')
 
 router.get(
@@ -15,5 +16,7 @@ router.post(
   '/sync-uid',
   syncFirebaseUid
 )
+
+router.get('/', getAllEmployees)
 
 module.exports = router

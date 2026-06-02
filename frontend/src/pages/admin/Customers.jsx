@@ -1,26 +1,47 @@
 import Sidebar from '../../components/admin/Sidebar'
+import { useEffect, useState } from 'react'
+
+import {
+  getCustomers,
+  deleteCustomer
+} from '../../services/customerService'
 
 export default function Customers() {
-  const customers = [
-    {
-      id: 'CUS001',
-      nama: 'Budi',
-      nohp: '08123456789',
-      alamat: 'Jakarta'
-    },
-    {
-      id: 'CUS002',
-      nama: 'Siti',
-      nohp: '08987654321',
-      alamat: 'Bandung'
-    },
-    {
-      id: 'CUS003',
-      nama: 'Andi',
-      nohp: '082233445566',
-      alamat: 'Surabaya'
+  const [customers, setCustomers] = useState([])
+
+  useEffect(() => {
+    fetchCustomers()
+  }, [])
+
+  const fetchCustomers = async () => {
+    const data =
+      await getCustomers()
+    setCustomers(data)
+  }
+
+  const handleDelete = async (uid) => {
+    const confirmDelete =
+      window.confirm(
+        'Yakin ingin menghapus customer?'
+      )
+
+    if (!confirmDelete) return
+
+    try {
+
+      await deleteCustomer(uid)
+
+      alert('Customer berhasil dihapus')
+
+      fetchCustomers()
+
+    } catch (error) {
+
+      console.log(error)
+
+      alert('Gagal menghapus customer')
     }
-  ]
+  }
 
   return (
     <div className="d-flex">
@@ -113,6 +134,7 @@ export default function Customers() {
                   <tr>
                     <th>ID Customer</th>
                     <th>Nama</th>
+                    <th>Email</th>
                     <th>No HP</th>
                     <th>Alamat</th>
                     <th>Aksi</th>
@@ -125,24 +147,25 @@ export default function Customers() {
 
                     <tr key={index}>
 
-                      <td>{customer.id}</td>
+                      <td>CUS{String(customer.id).padStart(3, '0')}</td>
 
                       <td>{customer.nama}</td>
 
-                      <td>{customer.nohp}</td>
+                      <td>{customer.email}</td>
 
-                      <td>{customer.alamat}</td>
+                      <td>{customer.nomor_telepon || '-'}</td>
+
+                      <td>{customer.alamat || '-'}</td>
 
                       <td>
 
                         <button
-                          className="btn btn-primary btn-sm me-2"
-                        >
-                          Edit
-                        </button>
-
-                        <button
                           className="btn btn-danger btn-sm"
+                          onClick={() =>
+                            handleDelete(
+                              customer.firebase_uid
+                            )
+                          }
                         >
                           Hapus
                         </button>

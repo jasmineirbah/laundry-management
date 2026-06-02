@@ -1,26 +1,19 @@
 import Sidebar from '../../components/admin/Sidebar'
+import { useEffect, useState } from 'react'
+import { getPayments } from '../../services/paymentService'
 
 export default function Payments() {
-  const payments = [
-    {
-      id: 'PAY001',
-      customer: 'Budi',
-      total: 'Rp 50.000',
-      status: 'Lunas'
-    },
-    {
-      id: 'PAY002',
-      customer: 'Siti',
-      total: 'Rp 75.000',
-      status: 'Belum Bayar'
-    },
-    {
-      id: 'PAY003',
-      customer: 'Andi',
-      total: 'Rp 120.000',
-      status: 'Lunas'
-    }
-  ]
+  const [payments, setPayments] = useState([])
+
+  useEffect(() => {
+    fetchPayments()
+  }, [])
+
+  const fetchPayments = async () => {
+    const data =
+      await getPayments()
+    setPayments(data)
+  }
 
   return (
     <div className="d-flex">
@@ -135,9 +128,11 @@ export default function Payments() {
 
                       <td>{payment.id}</td>
 
-                      <td>{payment.customer}</td>
+                      <td>Order #{payment.order_id}</td>
 
-                      <td>{payment.total}</td>
+                      <td>
+                        Rp {Number(payment.total).toLocaleString('id-ID')}
+                      </td>
 
                       <td>
 
@@ -157,12 +152,14 @@ export default function Payments() {
 
                         <button
                           className="btn btn-primary btn-sm me-2"
+                          disabled
                         >
                           Edit
                         </button>
 
                         <button
                           className="btn btn-danger btn-sm"
+                          disabled
                         >
                           Hapus
                         </button>

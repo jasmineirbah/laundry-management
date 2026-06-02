@@ -1,23 +1,18 @@
 import Sidebar from '../../components/admin/Sidebar'
+import { useState, useEffect } from 'react'
+import { getEmployees } from '../../services/employeeService'
 
 export default function Employees() {
-  const employees = [
-    {
-      id: 'EMP001',
-      nama: 'Rina',
-      posisi: 'Kasir'
-    },
-    {
-      id: 'EMP002',
-      nama: 'Doni',
-      posisi: 'Admin'
-    },
-    {
-      id: 'EMP003',
-      nama: 'Salsa',
-      posisi: 'Kurir'
-    }
-  ]
+  const [employees, setEmployees] = useState([])
+
+  useEffect(() => {
+    fetchEmployees()
+  }, [])
+
+  const fetchEmployees = async () => {
+    const data = await getEmployees()
+    setEmployees(data)
+  }
 
   return (
     <div className="d-flex">
@@ -122,11 +117,13 @@ export default function Employees() {
 
                     <tr key={index}>
 
-                      <td>{employee.id}</td>
+                      <td>
+                        EMP{String(employee.id).padStart(3, '0')}
+                      </td>
 
                       <td>{employee.nama}</td>
 
-                      <td>{employee.posisi}</td>
+                      <td>{employee.jabatan}</td>
 
                       <td>
                         <span className="badge bg-success">

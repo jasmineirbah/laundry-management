@@ -71,7 +71,7 @@ export default function Dashboard() {
 
           <div>
             <h1 className="fw-bold mb-1">
-              Dashboard Admin 👋
+              Dashboard Kasir 👋
             </h1>
 
             <p className="text-muted mb-0">
@@ -103,7 +103,7 @@ export default function Dashboard() {
               </h6>
 
               <small className="text-muted">
-                Administrator
+                Kasir
               </small>
             </div>
 

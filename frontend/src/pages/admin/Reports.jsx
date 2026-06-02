@@ -1,23 +1,25 @@
 import Sidebar from '../../components/admin/Sidebar'
+import { useEffect, useState } from 'react'
+import { getReport } from '../../services/reportService'
 
 export default function Reports() {
-  const reports = [
-    {
-      bulan: 'Januari',
-      orders: 100,
-      pendapatan: 'Rp 4.000.000'
-    },
-    {
-      bulan: 'Februari',
-      orders: 120,
-      pendapatan: 'Rp 5.200.000'
-    },
-    {
-      bulan: 'Maret',
-      orders: 140,
-      pendapatan: 'Rp 6.000.000'
+  const [report, setReport] = useState({
+    totalOrders: 0,
+    totalCustomers: 0,
+    totalIncome: 0
+  })
+
+  useEffect(() => {
+    fetchReport()
+  }, [])
+
+  const fetchReport = async () => {
+    const data = await getReport()
+
+    if (data) {
+      setReport(data)
     }
-  ]
+  }
 
   return (
     <div className="d-flex">
@@ -55,7 +57,7 @@ export default function Reports() {
                 </h6>
 
                 <h2 className="fw-bold">
-                  120
+                  {report.totalOrders}
                 </h2>
               </div>
             </div>
@@ -69,7 +71,7 @@ export default function Reports() {
                 </h6>
 
                 <h2 className="fw-bold text-success">
-                  Rp 5.200.000
+                  Rp {Number(report.totalIncome).toLocaleString('id-ID')}
                 </h2>
               </div>
             </div>
@@ -83,7 +85,7 @@ export default function Reports() {
                 </h6>
 
                 <h2 className="fw-bold text-primary">
-                  58
+                  {report.totalCustomers}
                 </h2>
               </div>
             </div>
@@ -116,21 +118,15 @@ export default function Reports() {
 
                 <tbody>
 
-                  {reports.map((report, index) => (
+                  <tr>
+                    <td>Juni 2026</td>
 
-                    <tr key={index}>
+                    <td>{report.totalOrders}</td>
 
-                      <td>{report.bulan}</td>
-
-                      <td>{report.orders}</td>
-
-                      <td className="fw-semibold text-success">
-                        {report.pendapatan}
-                      </td>
-
-                    </tr>
-
-                  ))}
+                    <td className="fw-semibold text-success">
+                      Rp {Number(report.totalIncome).toLocaleString('id-ID')}
+                    </td>
+                  </tr>
 
                 </tbody>
 

@@ -5,33 +5,49 @@ export const createCustomer = async (data) => {
   return response.data
 }
 
-// Get customers
 export const getCustomers = async () => {
   try {
-    const response = await api.get('/customers')
-    return response.data
+
+    const response =
+      await api.get('/api/customers')
+
+    return response.data.data
+
   } catch (error) {
+
     console.log(error)
+
     return []
   }
 }
 
-// Add customer
 export const addCustomer = async (data) => {
   try {
-    const response = await api.post('/customers', data)
+
+    const response =
+      await api.post('/api/customers', data)
+
     return response.data
+
   } catch (error) {
+
     console.log(error)
   }
 }
 
-// Delete customer
-export const deleteCustomer = async (id) => {
+export const deleteCustomer = async (uid) => {
+
   try {
-    const response = await api.delete(`/customers/${id}`)
+
+    const response =
+      await api.delete(
+        `/api/customers/${uid}`
+      )
+
     return response.data
+
   } catch (error) {
+
     console.log(error)
   }
 }

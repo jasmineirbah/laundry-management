@@ -99,9 +99,32 @@ const updatePelanggan = async (req, res) => {
   }
 }
 
+const deletePelanggan = async (req, res) => {
+
+  try {
+
+    await Customer.deleteCustomer(
+      req.params.uid
+    )
+
+    res.json({
+      success: true,
+      message: 'Pelanggan berhasil dihapus'
+    })
+
+  } catch (error) {
+
+    res.status(500).json({
+      success: false,
+      error: error.message
+    })
+  }
+}
+
 module.exports = {
   getAllPelanggan,
   getPelangganByUid,
   createPelanggan,
-  updatePelanggan
+  updatePelanggan,
+  deletePelanggan
 }

@@ -77,9 +77,23 @@ const updateCustomer = async (uid, data) => {
   return result
 }
 
+const deleteCustomer = async (uid) => {
+
+  const [result] = await db.query(
+    `
+    DELETE FROM pelanggan
+    WHERE firebase_uid = ?
+    `,
+    [uid]
+  )
+
+  return result
+}
+
 module.exports = {
   getAllCustomers,
   getCustomerByUid,
   createCustomer,
-  updateCustomer
+  updateCustomer,
+  deleteCustomer
 }

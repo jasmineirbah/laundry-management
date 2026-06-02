@@ -1,34 +1,19 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { getOrders } from '../../services/orderService'
+import { getCustomers } from '../../services/customerService'
 import Sidebar from '../../components/admin/Sidebar'
+import { getEmployees } from '../../services/employeeService'
 
 export default function Dashboard() {
-  const [orders, setOrders] = useState([
-    {
-      id: 'ORD001',
-      customer: 'Budi',
-      paket: 'Cuci Kering',
-      status: 'Diproses',
-      total: 'Rp 45.000'
-    },
-    {
-      id: 'ORD002',
-      customer: 'Siti',
-      paket: 'Setrika',
-      status: 'Selesai',
-      total: 'Rp 30.000'
-    },
-    {
-      id: 'ORD003',
-      customer: 'Andi',
-      paket: 'Cuci Express',
-      status: 'Menunggu',
-      total: 'Rp 60.000'
-    }
-  ])
+  const [orders, setOrders] = useState([])
+  const [customers, setCustomers] = useState([])
 
   const [customer, setCustomer] = useState('')
   const [paket, setPaket] = useState('')
   const [total, setTotal] = useState('')
+
+  const [employees, setEmployees] = useState([])
+  console.log(employees)
 
   const addOrder = () => {
     if (!customer || !paket || !total) {
@@ -51,6 +36,29 @@ export default function Dashboard() {
     setTotal('')
 
     alert('Order berhasil ditambahkan')
+  }
+
+  useEffect(() => {
+    loadData()
+    fetchEmployees()
+  }, [])
+
+  const loadData = async () => {
+    try {
+      const orderData =
+        await getOrders()
+      const customerData =
+        await getCustomers()
+      setOrders(orderData)
+      setCustomers(customerData)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const fetchEmployees = async () => {
+    const data = await getEmployees()
+    setEmployees(data)
   }
 
   return (
@@ -136,7 +144,7 @@ export default function Dashboard() {
                 </h6>
 
                 <h2 className="fw-bold">
-                  75
+                  {customers.length}
                 </h2>
               </div>
             </div>
@@ -150,7 +158,7 @@ export default function Dashboard() {
                 </h6>
 
                 <h2 className="fw-bold">
-                  12
+                  {employees.length}
                 </h2>
               </div>
             </div>
@@ -164,7 +172,16 @@ export default function Dashboard() {
                 </h6>
 
                 <h2 className="fw-bold text-success">
-                  Rp 5.2 JT
+                  Rp {
+                    orders
+                      .reduce(
+                        (sum, order) =>
+                          sum +
+                          Number(order.total_harga || 0),
+                        0
+                      )
+                      .toLocaleString('id-ID')
+                  }
                 </h2>
               </div>
             </div>
@@ -204,9 +221,9 @@ export default function Dashboard() {
 
                       <td>{order.id}</td>
 
-                      <td>{order.customer}</td>
+                      <td>{order.nama_pelanggan}</td>
 
-                      <td>{order.paket}</td>
+                      <td>{order.nama_paket}</td>
 
                       <td>
                         <span
@@ -222,7 +239,9 @@ export default function Dashboard() {
                         </span>
                       </td>
 
-                      <td>{order.total}</td>
+                      <td>
+                        Rp {Number(order.total_harga).toLocaleString('id-ID')}
+                      </td>
 
                     </tr>
                   ))}
