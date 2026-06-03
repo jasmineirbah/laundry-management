@@ -10,11 +10,27 @@ export const getOrders = async () => {
   }
 }
 
+export const getOrdersByCustomer = async (pelangganId) => {
+  try {
+
+    const response =
+      await api.get(`/api/orders/pelanggan/${pelangganId}`)
+
+    return response.data.data
+
+  } catch (error) {
+
+    console.log(error)
+
+    return []
+  }
+}
+
 // Add order
 export const addOrder = async (data) => {
   try {
 
-    const response = await api.post('/orders', data)
+    const response = await api.post('/api/orders', data)
 
     return response.data
 
@@ -56,3 +72,4 @@ export const deleteOrder = async (id) => {
     console.log(error)
   }
 }
+

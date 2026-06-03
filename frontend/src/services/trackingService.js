@@ -58,3 +58,67 @@ export const updateTracking = async (
     console.log(error)
   }
 }
+
+export const saveNotification = async (
+  customer,
+  message
+) => {
+
+  await addDoc(
+    collection(db, 'notifications'),
+    {
+      customer,
+      message,
+      createdAt: serverTimestamp()
+    }
+  )
+}
+
+export const saveHandoverPhoto = async (
+  orderId,
+  customer,
+  photoUrl
+) => {
+
+  await addDoc(
+    collection(db, 'handover_photos'),
+    {
+      orderId,
+      customer,
+      photoUrl,
+      uploadedAt: serverTimestamp()
+    }
+  )
+}
+
+export const saveOutletSync = async (
+  outlet,
+  action
+) => {
+
+  await addDoc(
+    collection(db, 'outlet_sync'),
+    {
+      outlet,
+      action,
+      syncedAt: serverTimestamp()
+    }
+  )
+}
+
+export const saveFeedback = async (
+  customer,
+  rating,
+  comment
+) => {
+
+  await addDoc(
+    collection(db, 'customer_feedback'),
+    {
+      customer,
+      rating,
+      comment,
+      createdAt: serverTimestamp()
+    }
+  )
+}

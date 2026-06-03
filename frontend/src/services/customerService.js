@@ -51,3 +51,20 @@ export const deleteCustomer = async (uid) => {
     console.log(error)
   }
 }
+
+export const getCustomerByUid = async (uid) => {
+
+  try {
+
+    const response =
+      await api.get(`/api/customers/${uid}`)
+
+    return response.data.data
+
+  } catch (error) {
+
+    console.log(error)
+
+    return null
+  }
+}

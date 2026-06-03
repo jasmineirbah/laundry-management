@@ -79,6 +79,27 @@ export default function Login() {
 
       } else {
 
+        const customerResponse =
+          await fetch(
+            `http://localhost:3000/api/customers/${user.uid}`
+          )
+
+        const customerResult =
+          await customerResponse.json()
+
+        if (customerResult.success) {
+
+          localStorage.setItem(
+            'pelanggan_id',
+            customerResult.data.id
+          )
+
+          localStorage.setItem(
+            'customer',
+            JSON.stringify(customerResult.data)
+          )
+        }
+
         alert('Login berhasil sebagai Customer!')
         navigate('/customer/dashboard')
 

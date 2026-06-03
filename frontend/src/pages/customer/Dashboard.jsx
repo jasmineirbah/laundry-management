@@ -1,5 +1,13 @@
 import DashboardLayout from '../../components/common/DashboardLayout'
 import { auth } from '../../firebase/firebaseConfig'
+import { useEffect, useState } from 'react'
+import { getOrdersByCustomer } from '../../services/orderService'
+import {
+  collection,
+  onSnapshot
+} from 'firebase/firestore'
+import { db }
+from '../../firebase/firebaseConfig'
 
 export default function Dashboard() {
 
@@ -8,6 +16,71 @@ export default function Dashboard() {
   const username =
     user?.email?.split('@')[0] || 'Customer'
 
+  const [orders, setOrders] = useState([])
+
+  const [tracking, setTracking] = useState([])
+
+  useEffect(() => {
+    fetchOrders()
+  }, [])
+
+  useEffect(() => {
+    const unsubscribe =
+      onSnapshot(
+        collection(
+          db,
+          'tracking_status'
+        ),
+        snapshot => {
+
+          const data =
+            snapshot.docs.map(
+              doc => ({
+                id: doc.id,
+                ...doc.data()
+              })
+            )
+
+          setTracking(data)
+        }
+      )
+
+    return () => unsubscribe()
+
+  }, [])
+
+  const fetchOrders = async () => {
+    const pelangganId =
+      localStorage.getItem('pelanggan_id')
+
+    const data =
+      await getOrdersByCustomer(pelangganId)
+
+    if (data) {
+      setOrders(data)
+    }
+  }
+
+  const waitingOrders =
+    orders.filter(
+      order => order.status === 'Menunggu'
+    ).length
+
+  const processingOrders =
+    orders.filter(
+      order =>
+        order.status === 'Diproses' ||
+        order.status === 'Dicuci'
+    ).length
+
+  const finishedOrders =
+    orders.filter(
+      order =>
+        order.status === 'Selesai' ||
+        order.status === 'Diambil'
+    ).length
+
+  console.log(tracking)
   return (
     <DashboardLayout title="Dashboard">
 
@@ -30,7 +103,7 @@ export default function Dashboard() {
             </div>
 
             <div className="stat-value">
-              0
+              {waitingOrders}
             </div>
           </div>
         </div>
@@ -42,7 +115,7 @@ export default function Dashboard() {
             </div>
 
             <div className="stat-value">
-              0
+              {processingOrders}
             </div>
           </div>
         </div>
@@ -54,7 +127,7 @@ export default function Dashboard() {
             </div>
 
             <div className="stat-value">
-              0
+              {finishedOrders}
             </div>
           </div>
         </div>
@@ -67,9 +140,49 @@ export default function Dashboard() {
           Order Terbaru
         </h5>
 
-        <div className="text-center py-5 text-muted">
-          Belum ada order laundry
-        </div>
+        {orders.length > 0 ? (
+
+          <table className="table">
+
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Paket</th>
+                <th>Status</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              {orders.slice(0, 5).map(order => (
+
+                <tr key={order.id}>
+                  <td>{order.id}</td>
+
+                  <td>{order.nama_paket}</td>
+
+                  <td>{order.status}</td>
+
+                  <td>
+                    Rp {Number(order.total_harga)
+                      .toLocaleString('id-ID')}
+                  </td>
+                </tr>
+
+              ))}
+
+            </tbody>
+
+          </table>
+
+        ) : (
+
+          <div className="text-center py-5 text-muted">
+            Belum ada order laundry
+          </div>
+
+        )}
 
       </div>
 

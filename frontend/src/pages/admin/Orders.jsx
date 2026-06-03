@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react'
 import Sidebar from '../../components/admin/Sidebar'
 import api from '../../services/api'
-import { saveTrackingStatus } from '../../services/trackingService'
+import {
+  saveTrackingStatus,
+  saveNotification,
+  saveHandoverPhoto,
+  saveOutletSync,
+  saveFeedback
+} from '../../services/trackingService'
 
 export default function Orders() {
   const [orders, setOrders] = useState([])
@@ -34,6 +40,10 @@ export default function Orders() {
         id,
         customerName,
         newStatus
+      )
+      await saveNotification(
+        customerName,
+        `Pesanan laundry Anda sedang ${newStatus}`
       )
       alert('Status berhasil diupdate')
       fetchOrders()
@@ -180,6 +190,58 @@ export default function Orders() {
                         </button>
                       </td>
 
+                      <td>
+                        <button
+                          className="btn btn-success btn-sm ms-2"
+                          onClick={async () => {
+
+                            await saveHandoverPhoto(
+                              order.id,
+                              order.nama_pelanggan,
+                              'foto_serah_terima.jpg'
+                            )
+
+                              alert('Foto handover tersimpan')
+                            }}
+                          >
+                            Handover
+                        </button>
+                      </td>
+
+                      <td>
+                        <button
+                          className="btn btn-success btn-sm ms-2"
+                          onClick={async () => {
+
+                            await saveOutletSync(
+                              'Outlet Pusat',
+                              'Sinkronisasi berhasil'
+                            )
+
+                              alert('Outlet sync tersimpan')
+                            }}
+                          >
+                            Sync
+                        </button>
+                      </td>
+
+                      <td>
+                        <button
+                          className="btn btn-info btn-sm ms-2"
+                          onClick={async () => {
+
+                            await saveFeedback(
+                              'akuhebat',
+                              5,
+                              'Pelayanan sangat memuaskan'
+                            )
+
+                              alert('Feedback tersimpan')
+                            }}
+                          >
+                            Feedback
+                        </button>
+                      </td>
                     </tr>
 
                   ))}

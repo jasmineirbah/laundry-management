@@ -29,12 +29,21 @@ const getOrdersByPelanggan = async (req, res) => {
 
 // 3. Buat Order Laundry Baru
 const createOrder = async (req, res) => {
-    const { pelanggan_id, paket_id, pegawai_id, berat_kg, total_harga } = req.body;
+    const { pelanggan_id, paket_id, berat_kg, total_harga } = req.body;
     try {
         // Masukkan data ke tabel order_laundry
         const [result] = await db.query(
-            'INSERT INTO order_laundry (pelanggan_id, paket_id, pegawai_id, berat_kg, total_harga) VALUES (?, ?, ?, ?, ?)',
-            [pelanggan_id, paket_id, pegawai_id, berat_kg, total_harga]
+            `
+            INSERT INTO order_laundry
+            (pelanggan_id, paket_id, berat_kg, total_harga)
+            VALUES (?, ?, ?, ?)
+            `,
+            [
+                pelanggan_id,
+                paket_id,
+                berat_kg,
+                total_harga
+            ]
         );
         
         const orderId = result.insertId;

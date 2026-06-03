@@ -24,30 +24,21 @@ export default function Customers() {
       window.confirm(
         'Yakin ingin menghapus customer?'
       )
-
     if (!confirmDelete) return
 
     try {
-
       await deleteCustomer(uid)
-
       alert('Customer berhasil dihapus')
-
       fetchCustomers()
-
     } catch (error) {
-
       console.log(error)
-
       alert('Gagal menghapus customer')
     }
   }
 
   return (
     <div className="d-flex">
-
       <Sidebar />
-
       <div
         className="flex-grow-1 p-4"
         style={{
@@ -57,7 +48,6 @@ export default function Customers() {
       >
 
         <div className="mb-4">
-
           <h1 className="fw-bold">
             Data Customers
           </h1>

@@ -37,7 +37,7 @@ function AppRoutes() {
 
         {/* CUSTOMER */}
         <Route path="/customer/Dashboard" element={<Dashboard />} />
-        <Route path="/customer/NewOrder" element={<NewOrder />} />
+        <Route path="/customer/new-order" element={<NewOrder />} />
         <Route path="/customer/History" element={<History />} />
         <Route path="/customer/Profile" element={<Profile />} />
 
