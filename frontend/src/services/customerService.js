@@ -68,3 +68,24 @@ export const getCustomerByUid = async (uid) => {
     return null
   }
 }
+
+export const updateCustomer = async (
+  uid,
+  data
+) => {
+
+  try {
+
+    const response =
+      await api.put(
+        `/api/customers/${uid}`,
+        data
+      )
+
+    return response.data
+
+  } catch (error) {
+
+    console.log(error)
+  }
+}

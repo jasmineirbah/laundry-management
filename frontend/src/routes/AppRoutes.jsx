@@ -26,6 +26,13 @@ import KurirDashboard from "../pages/kurir/Dashboard";
 // Protected Route
 import ProtectedRoute from "./ProtectedRoute";
 
+import Feedback from "../pages/customer/Feedback";
+import Notifications from '../pages/customer/Notifications'
+
+import AdminFeedback from "../pages/admin/AdminFeedback";
+import HandoverPhoto from "../pages/admin/HandoverPhoto";
+import OutletSync from "../pages/admin/OutletSync";
+
 function AppRoutes() {
   return (
     <BrowserRouter>
@@ -128,6 +135,46 @@ function AppRoutes() {
           }
         />
 
+        <Route
+          path="/admin/feedback"
+          element={
+            <ProtectedRoute allowedRoles={["Admin"]}>
+              <AdminFeedback />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/customer/feedback"
+          element={<Feedback />}
+        />
+
+        <Route
+          path="/customer/notifications"
+          element={<Notifications />}
+        />
+
+        <Route
+          path="/admin/handover"
+          element={
+            <ProtectedRoute
+              allowedRoles={["Admin", "Kurir"]}
+            >
+              <HandoverPhoto />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/outlet-sync"
+          element={
+            <ProtectedRoute
+              allowedRoles={["Admin", "Kurir"]}
+            >
+              <OutletSync />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

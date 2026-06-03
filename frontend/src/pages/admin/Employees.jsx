@@ -107,7 +107,6 @@ export default function Employees() {
                     <th>Nama</th>
                     <th>Posisi</th>
                     <th>Status</th>
-                    <th>Aksi</th>
                   </tr>
                 </thead>
 
@@ -129,22 +128,6 @@ export default function Employees() {
                         <span className="badge bg-success">
                           Aktif
                         </span>
-                      </td>
-
-                      <td>
-
-                        <button
-                          className="btn btn-primary btn-sm me-2"
-                        >
-                          Edit
-                        </button>
-
-                        <button
-                          className="btn btn-danger btn-sm"
-                        >
-                          Hapus
-                        </button>
-
                       </td>
 
                     </tr>

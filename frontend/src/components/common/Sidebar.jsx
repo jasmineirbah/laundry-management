@@ -52,12 +52,26 @@ export default function Sidebar() {
         >
           Riwayat
         </Link>
+        
+        <Link
+          to="/customer/notifications"
+          className="d-block text-decoration-none mb-3 text-dark"
+        >
+          Notifikasi
+        </Link>
 
         <Link
           to="/customer/profile"
           className="d-block text-decoration-none mb-3 text-dark"
         >
           Profile
+        </Link>
+
+        <Link
+          to="/customer/feedback"
+          className="d-block text-decoration-none mb-3 text-dark"
+        >
+          Feedback
         </Link>
 
         {/* --- TAMBAHAN MENU LOGOUT TEPAT DI BAWAH PROFILE --- */}

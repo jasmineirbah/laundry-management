@@ -61,6 +61,7 @@ export const updateTracking = async (
 
 export const saveNotification = async (
   customer,
+  orderId,
   message
 ) => {
 
@@ -68,6 +69,7 @@ export const saveNotification = async (
     collection(db, 'notifications'),
     {
       customer,
+      orderId,
       message,
       createdAt: serverTimestamp()
     }

@@ -79,36 +79,6 @@ export default function Dashboard() {
             </p>
           </div>
 
-          <div className="d-flex align-items-center gap-3">
-
-            <div
-              style={{
-                width: '50px',
-                height: '50px',
-                borderRadius: '50%',
-                background: '#0d6efd',
-                color: '#fff',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                fontWeight: 'bold'
-              }}
-            >
-              A
-            </div>
-
-            <div>
-              <h6 className="mb-0">
-                admin@gmail.com
-              </h6>
-
-              <small className="text-muted">
-                Kasir
-              </small>
-            </div>
-
-          </div>
-
         </div>
 
         {/* Statistik */}

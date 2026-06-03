@@ -43,7 +43,8 @@ export default function Orders() {
       )
       await saveNotification(
         customerName,
-        `Pesanan laundry Anda sedang ${newStatus}`
+        id,
+        `Pesanan #${id} sedang ${newStatus}`    
       )
       alert('Status berhasil diupdate')
       fetchOrders()

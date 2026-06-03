@@ -119,18 +119,47 @@ export default function Sidebar() {
           </>
         )}
 
+        <li>
+          <Link
+            className="nav-link text-dark"
+            to="/admin/feedback"
+          >
+            Feedback
+          </Link>
+        </li>
+
+        <li>
+          <Link
+            className="nav-link text-dark"
+            to="/admin/outlet-sync"
+          >
+            Outlet Sync
+          </Link>
+        </li>
+
         {/* ADMIN + KURIR */}
 
         {(jabatan === 'Admin' ||
           jabatan === 'Kurir') && (
-          <li>
-            <Link
-              className="nav-link text-dark"
-              to="/admin/packages"
-            >
-              Tracking
-            </Link>
-          </li>
+          <>
+            <li>
+              <Link
+                className="nav-link text-dark"
+                to="/admin/packages"
+              >
+                Realtime Tracking
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                className="nav-link text-dark"
+                to="/admin/handover"
+              >
+                Handover Photo
+              </Link>
+            </li>
+          </>
         )}
 
       </ul>

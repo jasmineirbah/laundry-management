@@ -1,26 +1,59 @@
 import Sidebar from '../../components/admin/Sidebar'
+import { useEffect, useState } from 'react'
+
+import {
+  collection,
+  onSnapshot,
+  query,
+  orderBy
+} from 'firebase/firestore'
+
+import { db } from '../../firebase/firebaseConfig'
 
 export default function Packages() {
-  const trackingData = [
-    {
-      id: 'ORD001',
-      customer: 'Budi',
-      status: 'Diproses',
-      progress: 60
-    },
-    {
-      id: 'ORD002',
-      customer: 'Siti',
-      status: 'Selesai',
-      progress: 100
-    },
-    {
-      id: 'ORD003',
-      customer: 'Andi',
-      status: 'Menunggu',
-      progress: 25
-    }
-  ]
+
+  const [trackingData, setTrackingData] =
+    useState([])
+
+  useEffect(() => {
+
+    const q = query(
+      collection(db, 'tracking_status'),
+      orderBy('updatedAt', 'desc')
+    )
+
+    const unsubscribe =
+      onSnapshot(q, (snapshot) => {
+
+        const data =
+          snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }))
+
+        setTrackingData(data)
+      })
+
+    return () => unsubscribe()
+
+  }, [])
+
+  const totalOrders =
+    trackingData.length
+
+  const processingOrders =
+    trackingData.filter(
+      item =>
+        item.status === 'Diproses' ||
+        item.status === 'Dicuci'
+    ).length
+
+  const completedOrders =
+    trackingData.filter(
+      item =>
+        item.status === 'Selesai' ||
+        item.status === 'Diambil'
+    ).length
 
   return (
     <div className="d-flex">
@@ -42,24 +75,25 @@ export default function Packages() {
           </h1>
 
           <p className="text-muted">
-            Pantau progres pengerjaan laundry secara realtime.
+            Pantau status laundry customer secara realtime.
           </p>
 
         </div>
 
-        {/* Statistik */}
         <div className="row g-4 mb-4">
 
           <div className="col-md-4">
             <div className="card border-0 shadow-sm">
               <div className="card-body">
+
                 <h6 className="text-muted">
-                  Total Order
+                  Total Tracking
                 </h6>
 
                 <h2 className="fw-bold">
-                  3
+                  {totalOrders}
                 </h2>
+
               </div>
             </div>
           </div>
@@ -67,13 +101,15 @@ export default function Packages() {
           <div className="col-md-4">
             <div className="card border-0 shadow-sm">
               <div className="card-body">
+
                 <h6 className="text-muted">
                   Sedang Diproses
                 </h6>
 
                 <h2 className="fw-bold text-warning">
-                  1
+                  {processingOrders}
                 </h2>
+
               </div>
             </div>
           </div>
@@ -81,52 +117,60 @@ export default function Packages() {
           <div className="col-md-4">
             <div className="card border-0 shadow-sm">
               <div className="card-body">
+
                 <h6 className="text-muted">
                   Selesai
                 </h6>
 
                 <h2 className="fw-bold text-success">
-                  1
+                  {completedOrders}
                 </h2>
+
               </div>
             </div>
           </div>
 
         </div>
 
-        {/* Tracking List */}
         <div className="card border-0 shadow-sm">
 
           <div className="card-header bg-white">
             <h4 className="mb-0">
-              Status Tracking Laundry
+              Riwayat Tracking Status
             </h4>
           </div>
 
           <div className="card-body">
 
-            {trackingData.map((item, index) => (
+            {trackingData.length > 0 ? (
 
-              <div
-                key={index}
-                className="mb-4 p-3 border rounded bg-white"
-              >
+              trackingData.map(item => (
 
-                <div className="d-flex justify-content-between">
+                <div
+                  key={item.id}
+                  className="border rounded p-3 mb-3 bg-white"
+                >
 
-                  <div>
-                    <h5>{item.id}</h5>
-                    <p className="mb-1 text-muted">
-                      Customer: {item.customer}
-                    </p>
-                  </div>
+                  <div className="d-flex justify-content-between">
 
-                  <div>
+                    <div>
+
+                      <h5>
+                        Order #{item.orderId}
+                      </h5>
+
+                      <p className="mb-1 text-muted">
+                        Customer: {item.customer}
+                      </p>
+
+                    </div>
 
                     <span
                       className={`badge ${
                         item.status === 'Selesai'
                           ? 'bg-success'
+                          : item.status === 'Dicuci'
+                          ? 'bg-info'
                           : item.status === 'Diproses'
                           ? 'bg-warning text-dark'
                           : 'bg-secondary'
@@ -137,28 +181,27 @@ export default function Packages() {
 
                   </div>
 
-                </div>
+                  <small className="text-muted">
 
-                <div className="progress mt-3">
+                    {item.updatedAt
+                      ? item.updatedAt
+                          .toDate()
+                          .toLocaleString('id-ID')
+                      : 'Baru saja'}
 
-                  <div
-                    className={`progress-bar ${
-                      item.progress === 100
-                        ? 'bg-success'
-                        : 'bg-primary'
-                    }`}
-                    style={{
-                      width: `${item.progress}%`
-                    }}
-                  >
-                    {item.progress}%
-                  </div>
+                  </small>
 
                 </div>
 
+              ))
+
+            ) : (
+
+              <div className="text-muted">
+                Belum ada data tracking
               </div>
 
-            ))}
+            )}
 
           </div>
 
