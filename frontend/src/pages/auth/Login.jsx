@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { auth } from '../../firebase/firebaseConfig'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-const API_URL = import.meta.env.VITE_API_URL
+
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -31,7 +31,7 @@ export default function Login() {
       const user = userCredential.user
 
       await fetch(
-       `${API_URL}/employees/sync-uid`,
+        'http://localhost:3000/api/employees/sync-uid',
         {
           method: 'POST',
           headers: {
@@ -48,7 +48,7 @@ export default function Login() {
         userCredential.user.email
 
       const response = await fetch(
-        `${API_URL}/employees/check-employee/${userEmail}`
+        `http://localhost:3000/api/employees/check-employee/${userEmail}`
       )
 
       const result = await response.json()
@@ -83,7 +83,7 @@ export default function Login() {
 
         const customerResponse =
           await fetch(
-            `${API_URL}/customers/${user.uid}`
+            `http://localhost:3000/api/customers/${user.uid}`
           )
 
         const customerResult =
