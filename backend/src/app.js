@@ -13,6 +13,14 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
+// ROOT ROUTE
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Laundry Backend API Running 🚀'
+  })
+})
+
 app.use('/api/employees', employeeRoutes)
 app.use('/api/orders', orderRoutes)
 app.use('/api/customers', customerRoutes)
