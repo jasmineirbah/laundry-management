@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { auth } from '../../firebase/firebaseConfig'
 import { signInWithEmailAndPassword } from 'firebase/auth'
+const API_URL = import.meta.env.VITE_API_URL
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -10,6 +11,7 @@ export default function Login() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+  
 
   const handleLogin = async (e) => {
     e.preventDefault()
@@ -29,7 +31,7 @@ export default function Login() {
       const user = userCredential.user
 
       await fetch(
-        'http://localhost:3000/api/employees/sync-uid',
+       `${API_URL}/employees/sync-uid`,
         {
           method: 'POST',
           headers: {
@@ -46,7 +48,7 @@ export default function Login() {
         userCredential.user.email
 
       const response = await fetch(
-        `http://localhost:3000/api/employees/check-employee/${userEmail}`
+        `${API_URL}/employees/check-employee/${userEmail}`
       )
 
       const result = await response.json()
@@ -81,7 +83,7 @@ export default function Login() {
 
         const customerResponse =
           await fetch(
-            `http://localhost:3000/api/customers/${user.uid}`
+            `${API_URL}/customers/${user.uid}`
           )
 
         const customerResult =
