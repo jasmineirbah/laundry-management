@@ -29,9 +29,10 @@ export default function Login() {
         )
 
       const user = userCredential.user
+      const API_URL = import.meta.env.VITE_API_URL
 
       await fetch(
-        'http://localhost:3000/api/employees/sync-uid',
+        `${API_URL}/api/employees/sync-uid`,
         {
           method: 'POST',
           headers: {
@@ -48,7 +49,7 @@ export default function Login() {
         userCredential.user.email
 
       const response = await fetch(
-        `http://localhost:3000/api/employees/check-employee/${userEmail}`
+        `${API_URL}/api/employees/check-employee/${userEmail}`
       )
 
       const result = await response.json()
@@ -83,7 +84,7 @@ export default function Login() {
 
         const customerResponse =
           await fetch(
-            `http://localhost:3000/api/customers/${user.uid}`
+            `${API_URL}/api/customers/${user.uid}`
           )
 
         const customerResult =
