@@ -40,18 +40,18 @@ function AppRoutes() {
 
         {/* AUTH */}
         <Route path="/" element={<Login />} />
-        <Route path="/Register" element={<Register />} />
+        <Route path="/register" element={<Register />} />
 
         {/* CUSTOMER */}
-        <Route path="/customer/Dashboard" element={<Dashboard />} />
+        <Route path="/customer/dashboard" element={<Dashboard />} />
         <Route path="/customer/new-order" element={<NewOrder />} />
-        <Route path="/customer/History" element={<History />} />
-        <Route path="/customer/Profile" element={<Profile />} />
+        <Route path="/customer/history" element={<History />} />
+        <Route path="/customer/profile" element={<Profile />} />
 
-        {/* ================= ADMIN ================= */}
+        {/* ADMIN */}
 
         <Route
-          path="/admin/Dashboard"
+          path="/admin/dashboard"
           element={
             <ProtectedRoute allowedRoles={["Admin"]}>
               <AdminDashboard />
@@ -60,7 +60,7 @@ function AppRoutes() {
         />
 
         <Route
-          path="/admin/Orders"
+          path="/admin/orders"
           element={
             <ProtectedRoute allowedRoles={["Admin", "Kasir"]}>
               <Orders />
@@ -69,7 +69,7 @@ function AppRoutes() {
         />
 
         <Route
-          path="/admin/Customers"
+          path="/admin/customers"
           element={
             <ProtectedRoute allowedRoles={["Admin", "Kasir"]}>
               <Customers />
@@ -78,7 +78,7 @@ function AppRoutes() {
         />
 
         <Route
-          path="/admin/Payments"
+          path="/admin/payments"
           element={
             <ProtectedRoute allowedRoles={["Admin", "Kasir"]}>
               <Payments />
@@ -87,7 +87,7 @@ function AppRoutes() {
         />
 
         <Route
-          path="/admin/Employees"
+          path="/admin/employees"
           element={
             <ProtectedRoute allowedRoles={["Admin"]}>
               <Employees />
@@ -96,7 +96,7 @@ function AppRoutes() {
         />
 
         <Route
-          path="/admin/Reports"
+          path="/admin/reports"
           element={
             <ProtectedRoute allowedRoles={["Admin"]}>
               <Reports />
@@ -105,7 +105,7 @@ function AppRoutes() {
         />
 
         <Route
-          path="/admin/Packages"
+          path="/admin/packages"
           element={
             <ProtectedRoute allowedRoles={["Admin", "Kurir"]}>
               <Packages />
@@ -113,10 +113,10 @@ function AppRoutes() {
           }
         />
 
-        {/* ================= KASIR ================= */}
+        {/* KASIR */}
 
         <Route
-          path="/kasir/Dashboard"
+          path="/kasir/dashboard"
           element={
             <ProtectedRoute allowedRoles={["Kasir"]}>
               <KasirDashboard />
@@ -124,10 +124,10 @@ function AppRoutes() {
           }
         />
 
-        {/* ================= KURIR ================= */}
+        {/* KURIR */}
 
         <Route
-          path="/kurir/Dashboard"
+          path="/kurir/dashboard"
           element={
             <ProtectedRoute allowedRoles={["Kurir"]}>
               <KurirDashboard />
@@ -157,9 +157,7 @@ function AppRoutes() {
         <Route
           path="/admin/handover"
           element={
-            <ProtectedRoute
-              allowedRoles={["Admin", "Kurir"]}
-            >
+            <ProtectedRoute allowedRoles={["Admin", "Kurir"]}>
               <HandoverPhoto />
             </ProtectedRoute>
           }
@@ -168,9 +166,7 @@ function AppRoutes() {
         <Route
           path="/admin/outlet-sync"
           element={
-            <ProtectedRoute
-              allowedRoles={["Admin", "Kurir"]}
-            >
+            <ProtectedRoute allowedRoles={["Admin", "Kurir"]}>
               <OutletSync />
             </ProtectedRoute>
           }
