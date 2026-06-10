@@ -5,7 +5,8 @@ import {
   collection,
   onSnapshot,
   query,
-  orderBy
+  orderBy,
+  where
 } from 'firebase/firestore'
 
 import { db } from '../../firebase/firebaseConfig'
@@ -16,9 +17,20 @@ export default function Notifications() {
     useState([])
 
   useEffect(() => {
+    const customerData =
+      JSON.parse(
+        localStorage.getItem('customer')
+      )
+
+    if (!customerData) return
 
     const q = query(
       collection(db, 'notifications'),
+      where(
+        'customer',
+        '==',
+        customerData.nama
+      ),
       orderBy('createdAt', 'desc')
     )
 
